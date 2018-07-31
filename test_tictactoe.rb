@@ -21,4 +21,10 @@ class TestTicTacToe < Minitest::Test
         assert_equal(3, test_board.width)
         assert_equal(3, test_board.height)
     end
+
+    def test_game_board_get_tile
+        test_board = GameBoard.new
+        assert_equal(0, test_board.get_tile(0, 0))
+    end
+
 end
