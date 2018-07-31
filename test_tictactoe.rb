@@ -100,5 +100,17 @@ class TestTicTacToe < Minitest::Test
         assert_equal(true, test_board.set_tile(1, 1, :x))
         assert_equal(true, test_board.set_tile(1, 2, :x))
         assert_equal(:x, test_board.check_winner())
+        assert_equal(true, test_board.set_tile(1, 0, :o))
+        assert_equal(true, test_board.set_tile(1, 2, :o))
+
+        assert_equal(true, test_board.set_tile(0, 1, :x))
+        assert_equal(true, test_board.set_tile(1, 1, :x))
+        assert_equal(true, test_board.set_tile(2, 1, :x))
+        assert_equal(:x, test_board.check_winner())
+
+        assert_equal(true, test_board.set_tile(0, 0, :o))
+        assert_equal(true, test_board.set_tile(2, 2, :o))
+        assert_equal(true, test_board.set_tile(1, 1, :o))
+        assert_equal(:o, test_board.check_winner())
     end
 end

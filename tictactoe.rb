@@ -42,7 +42,7 @@ class GameBoard
             last_piece = @board[down_counter][0]
             cur_y = 0
             while cur_y < @height do
-                if @board[down_counter][cur_y] != last_piece || last_piece == 0
+                if @board[down_counter][cur_y] != last_piece
                     break;
                 end
                 cur_y += 1
