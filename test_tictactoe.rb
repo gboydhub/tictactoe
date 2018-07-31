@@ -62,6 +62,7 @@ class TestTicTacToe < Minitest::Test
     end
 
     def test_game_board_check_winner_down
+        test_board = GameBoard.new
         assert_equal(true, test_board.set_tile(0, 0, :x))
         assert_equal(true, test_board.set_tile(0, 1, :x))
         assert_equal(true, test_board.set_tile(0, 2, :x))

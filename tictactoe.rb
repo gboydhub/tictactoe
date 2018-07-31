@@ -21,7 +21,6 @@ class GameBoard
     end
 
     def check_winner()
-        cross_check = 0
         cross_counter = 0
         while cross_counter < @height do
             last_piece = @board[0][cross_counter]
@@ -36,6 +35,22 @@ class GameBoard
                 return last_piece
             end
             cross_counter += 1
+        end
+
+        down_counter = 0
+        while down_counter < @width do
+            last_piece = @board[down_counter][0]
+            cur_y = 0
+            while cur_y < @height do
+                if @board[down_counter][cur_y] != last_piece
+                    break;
+                end
+                cur_y += 1
+            end
+            if cur_y == @height && last_piece != 0
+                return last_piece
+            end
+            down_counter += 1
         end
         false
     end
