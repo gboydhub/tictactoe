@@ -20,6 +20,26 @@ class GameBoard
         false
     end
 
+    def check_winner()
+        cross_check = 0
+        cross_counter = 0
+        while cross_counter < @height do
+            last_piece = @board[0][cross_counter]
+            cur_x = 1
+            while cur_x < @width do
+                if @board[cur_x][cross_counter] != last_piece
+                    break;
+                end
+                cur_x += 1
+            end
+            if cur_x == @width && last_piece != 0
+                return last_piece
+            end
+            cross_counter += 1
+        end
+        false
+    end
+
     attr_reader :width
     attr_reader :height
 end
