@@ -8,6 +8,10 @@ class GameBoard
         0
     end
 
+    def set_tile(x, y, marker)
+        true
+    end
+
     attr_reader :width
     attr_reader :height
 end
