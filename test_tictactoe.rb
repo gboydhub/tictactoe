@@ -82,4 +82,15 @@ class TestTicTacToe < Minitest::Test
         assert_equal(true, test_board.set_tile(1, 1, :o))
         assert_equal(false, test_board.check_winner())
     end
+
+    def test_game_board_check_winner_diag_bottom
+        test_board = GameBoard.new
+        assert_equal(true, test_board.set_tile(0, 2, :x))
+        assert_equal(true, test_board.set_tile(1, 1, :x))
+        assert_equal(true, test_board.set_tile(2, 0, :x))
+        assert_equal(:x, test_board.check_winner())
+        
+        assert_equal(true, test_board.set_tile(1, 1, :o))
+        assert_equal(false, test_board.check_winner())
+    end
 end
