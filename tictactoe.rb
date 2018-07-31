@@ -86,6 +86,10 @@ class GameBoard
         false
     end
 
+    def reset()
+        @board = Array.new(@width) {Array.new(@height, 0)}
+    end
+
     attr_reader :width
     attr_reader :height
 end
