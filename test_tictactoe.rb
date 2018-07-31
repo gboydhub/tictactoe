@@ -37,6 +37,9 @@ class TestTicTacToe < Minitest::Test
         assert_equal(true, test_board.set_tile(0, 0, 1))
         assert_equal(1, test_board.get_tile(0, 0))
 
+        assert_equal(true, test_board.set_tile(0, 2, 2))
+        assert_equal(2, test_board.get_tile(0, 2))
+
         assert_equal(false, test_board.set_tile(4, 0, 1))
         assert_equal(false, test_board.get_tile(4, 0))
     end
