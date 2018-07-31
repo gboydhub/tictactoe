@@ -52,6 +52,22 @@ class GameBoard
             end
             down_counter += 1
         end
+
+        #Top left to bottom right
+        x_counter = 1
+        y_counter = 1
+        last_piece = @board[0][0]
+        while x_counter < @width do
+            if @board[x_counter][y_counter] != last_piece
+                break;
+            end
+            x_counter += 1
+            y_counter += 1
+        end
+        if x_counter == @width && last_piece != 0
+            return last_piece
+        end
+        
         false
     end
 
