@@ -1,8 +1,8 @@
 class GameBoard
-    def initialize(width=3, height=3)
-        @width = width
-        @height = height
-        @board = Array.new(width) {Array.new(height, 0)}
+    def initialize(size=3)
+        @width = size
+        @height = size
+        @board = Array.new(size) {Array.new(size, 0)}
     end
 
     def get_tile(x, y)
