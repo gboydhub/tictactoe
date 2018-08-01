@@ -144,5 +144,7 @@ end
 
 class SequentialPlayer < BasePlayer
     def take_turn()
+        @board.set_tile(0, 0, @piece)
+        true
     end
 end
