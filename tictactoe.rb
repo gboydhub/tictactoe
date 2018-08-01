@@ -93,3 +93,6 @@ class GameBoard
     attr_reader :width
     attr_reader :height
 end
+
+class BasePlayer
+end
