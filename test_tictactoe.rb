@@ -201,4 +201,10 @@ class TestTicTacToe < Minitest::Test
 
         assert_equal(false, plr.take_turn())
     end
+
+    def test_seq_player_exist
+        plr = SequentialPlayer.new
+        plr.piece = "X"
+        assert_equal("X", plr.piece)
+    end
 end

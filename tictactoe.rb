@@ -141,3 +141,8 @@ class RandomPlayer < BasePlayer
         false
     end
 end
+
+class SequentialPlayer < BasePlayer
+    def take_turn()
+    end
+end
