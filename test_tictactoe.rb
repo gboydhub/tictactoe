@@ -287,5 +287,10 @@ class TestTicTacToe < Minitest::Test
         board.set_tile(0, 0, :O)
         plr.take_turn()
         assert_equal(:X, board.get_tile(1, 0))
+        
+        board.set_tile(1, 0, :O)
+        board.set_tile(2, 0, :O)
+        plr.take_turn()
+        assert_equal(:X, board.get_tile(0, 1))
     end
 end
