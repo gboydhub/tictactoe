@@ -111,6 +111,7 @@ end
 
 class RandomPlayer < BasePlayer
     def take_turn(game_board)
+        game_board.set_tile(0, 0, @piece)
         true
     end
 end
