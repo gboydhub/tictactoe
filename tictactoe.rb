@@ -220,6 +220,8 @@ class UnbeatablePlayer < BasePlayer
             while x < @board.width do 
                 if @board.get_tile(x, y) == @piece
                     found += 1
+                elsif @board.get_tile(x, y) != 0
+                    found -= 1
                 end
                 x += 1
             end
@@ -235,6 +237,33 @@ class UnbeatablePlayer < BasePlayer
             found = 0
             y += 1
         end
+
+        #Down
+        x = 0
+        y = 0
+        found = 0
+        while x < @board.width do 
+            while y < @board.height do
+                if @board.get_tile(x, y) == @piece
+                    found += 1
+                elsif @board.get_tile(x, y) != 0
+                    found -= 1
+                end
+                y += 1
+            end
+            if found == 2
+                y = 0
+                while y < @board.height do
+                    @board.set_tile(x, y, @piece)
+                    y += 1
+                end
+                return true
+            end
+            y = 0
+            found = 0
+            x += 1
+        end
+
         false
     end
 end
