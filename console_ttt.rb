@@ -40,7 +40,7 @@ def ask_player_move(board, piece)
                     x_loc = x_loc.to_i - 1
                     y_loc = (y_loc.ord - "A".ord)
                     if y_loc < board.height #Y is valid
-                        if board.set_tile(x_loc, y_loc, piece) #Move is valid on board
+                        if board.get_tile(x_loc, y_loc) == 0 && board.set_tile(x_loc, y_loc, piece) #Move is valid on board
                             valid_move = true
                         else
                             puts "That is an invalid move, try another."
@@ -60,6 +60,7 @@ while num_humans < 0 || num_humans > 2
 end
 
 choose_piece = "-"
+player1_turn = 0
 if num_humans > 0
     while !avail_pieces.include?(choose_piece) do
         print "Player 1, do you want to be O or X (blank for random): "
@@ -69,10 +70,14 @@ if num_humans > 0
         end
     end
     avail_pieces.delete_at(avail_pieces.index(choose_piece))
-end
-player_piece = [choose_piece]
-if num_humans == 2
-    player_piece << avail_pieces[0]
+    player_piece = [choose_piece]
+    if num_humans == 2
+        player_piece << avail_pieces[0]
+    end
+
+    if choose_piece == "X"
+        player1_turn = 1
+    end
 end
 
 #Create required AI's
@@ -97,7 +102,7 @@ while !board.check_winner() do
     if num_humans == 0
         ai_list[board.turns_taken % 2].take_turn()
     elsif num_humans == 1
-        if board.turns_taken % 2 == 0
+        if board.turns_taken % 2 == player1_turn
             ask_player_move(board, player_piece[0])
         else
             ai_list[0].take_turn()
@@ -118,5 +123,15 @@ winner = board.check_winner()
 if winner == "Draw"
     puts "\nThe game is a draw!"
 else
+    if num_humans == 1 && player_piece[0] == winner
+            winner = "Player 1"
+    end
+    if num_humans == 2
+        if player_piece[0] == winner
+            winner = "Player 1"
+        else
+            winner = "Player 2"
+        end
+    end
     puts "\n#{winner} wins the game!"
 end
