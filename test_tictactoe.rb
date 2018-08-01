@@ -131,7 +131,8 @@ class TestTicTacToe < Minitest::Test
     def test_player_base_taketurn
         plr = BasePlayer.new
         board = GameBoard.new
-        assert_equal(false, plr.take_turn(board))
+        plr.set_board(board)
+        assert_equal(false, plr.take_turn())
     end
 
     def test_random_player_exist
@@ -141,13 +142,15 @@ class TestTicTacToe < Minitest::Test
     def test_random_player_extends_base
         plr = RandomPlayer.new
         board = GameBoard.new
-        plr.take_turn(board)
+        plr.set_board(board)
+        plr.take_turn()
     end
 
     def test_random_player_takes_turn
         plr = RandomPlayer.new
         board = GameBoard.new
-        assert_equal(true, plr.take_turn(board))
+        plr.set_board(board)
+        assert_equal(true, plr.take_turn())
     end
 
     def test_base_player_sets_piece
@@ -172,8 +175,28 @@ class TestTicTacToe < Minitest::Test
     def test_random_player_takes_turn
         plr = RandomPlayer.new
         brd = GameBoard.new
+        plr.set_board(brd)
         plr.piece = :x
-        assert_equal(true, plr.take_turn(brd))
+        assert_equal(true, plr.take_turn())
         assert_equal(1, brd.turns_taken)
+    end
+
+    def test_random_player_fills_board
+        plr = RandomPlayer.new
+        board = GameBoard.new
+        plr.set_board(board)
+        plr.piece = :x
+
+        counter = 0
+        while counter < (board.width * board.height) do
+            assert_equal(true, plr.take_turn())
+            counter += 1
+        end
+        
+        counter = 0
+        while counter < (board.width * board.height) do
+            assert_equal(:x, board.get_tile(counter % 3, (counter / 3).floor))
+            counter += 1
+        end
     end
 end

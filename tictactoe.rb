@@ -102,7 +102,11 @@ class BasePlayer
         @piece = 0
     end
 
-    def take_turn(game_board)
+    def set_board(game_board)
+        @board = game_board
+    end
+
+    def take_turn()
         false
     end
 
@@ -110,8 +114,8 @@ class BasePlayer
 end
 
 class RandomPlayer < BasePlayer
-    def take_turn(game_board)
-        game_board.set_tile(0, 0, @piece)
+    def take_turn()
+        @board.set_tile(0, 0, @piece)
         true
     end
 end
