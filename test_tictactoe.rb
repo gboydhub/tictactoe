@@ -224,7 +224,7 @@ class TestTicTacToe < Minitest::Test
         plr.set_board(board)
         plr.piece = :X
 
-        board.set_tile(1, 1, :O)
+        board.set_tile(1, 1, :X)
         plr.take_turn()
         assert_equal(:X, board.get_tile(0, 1))
     end

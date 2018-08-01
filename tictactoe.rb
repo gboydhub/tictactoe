@@ -144,7 +144,24 @@ end
 
 class SequentialPlayer < BasePlayer
     def take_turn()
-        @board.set_tile(0, 0, @piece)
+        find_piece = [0, 0]
+        f_x = 0
+        f_y = 0
+        while f_x < @board.width do
+            while f_y < @board.height do
+                if @board.get_tile(f_x, f_y) == @piece
+                    if @board.get_tile(f_x - 1, f_y) == 0
+                        find_piece = [f_x-1, f_y]
+                        break;
+                    end
+                end
+                f_y += 1
+            end
+            f_x += 1
+            f_y = 0
+        end
+
+        @board.set_tile(find_piece[0], find_piece[1], @piece)
         true
     end
 end
