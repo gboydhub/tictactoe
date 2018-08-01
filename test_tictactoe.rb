@@ -152,13 +152,13 @@ class TestTicTacToe < Minitest::Test
 
     def test_base_player_sets_piece
         plr = BasePlayer.new
-        plr.set_piece(:x)
+        plr.piece = :x
         assert_equal(:x, plr.piece)
     end
 
     def test_random_player_sets_piece
         plr = RandomPlayer.new
-        plr.set_piece(:x)
+        plr.piece = :x
         assert_equal(:x, plr.piece)
     end
 
@@ -166,6 +166,14 @@ class TestTicTacToe < Minitest::Test
         brd = GameBoard.new
         assert_equal(0, brd.turns_taken)
         brd.set_tile(0, 0, :x)
+        assert_equal(1, brd.turns_taken)
+    end
+
+    def test_random_player_takes_turn
+        plr = RandomPlayer.new
+        brd = GameBoard.new
+        plr.piece = :x
+        assert_equal(true, plr.take_turn(brd))
         assert_equal(1, brd.turns_taken)
     end
 end
