@@ -98,6 +98,12 @@ class BasePlayer
     def take_turn(game_board)
         false
     end
+
+    def set_piece(new_piece)
+        @piece = new_piece
+    end
+
+    attr_reader :piece
 end
 
 class RandomPlayer < BasePlayer
