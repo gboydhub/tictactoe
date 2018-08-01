@@ -133,4 +133,8 @@ class TestTicTacToe < Minitest::Test
         board = GameBoard.new
         plr.take_turn(board)
     end
+
+    def test_random_player_exist
+        plr = RandomPlayer.new
+    end
 end
