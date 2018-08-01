@@ -131,7 +131,7 @@ class TestTicTacToe < Minitest::Test
     def test_player_base_taketurn
         plr = BasePlayer.new
         board = GameBoard.new
-        plr.take_turn(board)
+        assert_equal(false, plr.take_turn(board))
     end
 
     def test_random_player_exist
@@ -142,5 +142,11 @@ class TestTicTacToe < Minitest::Test
         plr = RandomPlayer.new
         board = GameBoard.new
         plr.take_turn(board)
+    end
+
+    def test_random_player_takes_turn
+        plr = RandomPlayer.new
+        board = GameBoard.new
+        assert_equal(true, plr.take_turn(board))
     end
 end

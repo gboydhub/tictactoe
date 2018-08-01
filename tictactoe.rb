@@ -96,9 +96,12 @@ end
 
 class BasePlayer
     def take_turn(game_board)
-        @board = game_board
+        false
     end
 end
 
 class RandomPlayer < BasePlayer
+    def take_turn(game_board)
+        true
+    end
 end
