@@ -3,6 +3,7 @@ class GameBoard
         @width = size
         @height = size
         @board = Array.new(size) {Array.new(size, 0)}
+        @turns_taken = 0
     end
 
     def get_tile(x, y)
@@ -15,6 +16,7 @@ class GameBoard
     def set_tile(x, y, marker)
         if x >= 0 && x < @width && y >= 0 && y < @height
             @board[x][y] = marker
+            @turns_taken += 1
             return true
         end
         false
@@ -92,6 +94,7 @@ class GameBoard
 
     attr_reader :width
     attr_reader :height
+    attr_reader :turns_taken
 end
 
 class BasePlayer
