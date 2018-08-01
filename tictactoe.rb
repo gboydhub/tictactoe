@@ -108,8 +108,6 @@ class GameBoard
     attr_reader :width
     attr_reader :height
     attr_reader :turns_taken
-
-    attr_reader :board
 end
 
 class BasePlayer
@@ -206,10 +204,38 @@ end
 
 class UnbeatablePlayer < BasePlayer
     def take_turn()
-
+        next_move = check_win()
+        if next_move
+            return true
+        end
+        false
     end
 
     def check_win()
+        found = 0
+        x = 0
+        y = 0
+        #Across
+        while y < @board.height do 
+            while x < @board.width do 
+                if @board.get_tile(x, y) == @piece
+                    found += 1
+                end
+                x += 1
+            end
+            if found == 2
+                x = 0
+                while x < @board.width do 
+                    @board.set_tile(x, y, @piece)
+                    x += 1
+                end
+                return true
+            end
+            x = 0
+            found = 0
+            y += 1
+        end
+        false
     end
 end
 
