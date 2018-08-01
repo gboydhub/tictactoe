@@ -239,4 +239,16 @@ class TestTicTacToe < Minitest::Test
         plr.take_turn()
         assert_equal(:X, board.get_tile(1, 1))
     end
+
+    def test_seq_player_wins_in_2
+        plr = SequentialPlayer.new
+        board = GameBoard.new
+        plr.set_board(board)
+        plr.piece = :X
+
+        board.set_tile(1, 1, :X)
+        plr.take_turn()
+        plr.take_turn()
+        assert_equal(:X, board.check_winner())
+    end
 end
