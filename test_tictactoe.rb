@@ -155,4 +155,10 @@ class TestTicTacToe < Minitest::Test
         plr.set_piece(:x)
         assert_equal(:x, plr.piece)
     end
+
+    def test_random_player_sets_piece
+        plr = RandomPlayer.new
+        plr.set_piece(:x)
+        assert_equal(:x, plr.piece)
+    end
 end
