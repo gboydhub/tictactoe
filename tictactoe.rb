@@ -208,6 +208,10 @@ class UnbeatablePlayer < BasePlayer
         if next_move
             return true
         end
+        next_move = block_win()
+        if next_move
+            return true
+        end
         false
     end
 
@@ -311,9 +315,118 @@ class UnbeatablePlayer < BasePlayer
         end
         false
     end
+
+    def block_win()
+        found = 0
+        x = 0
+        y = 0
+        #Across
+        while y < @board.height do 
+            while x < @board.width do 
+                if @board.get_tile(x, y) == @piece
+                    found -= 1
+                elsif @board.get_tile(x, y) != 0
+                    found += 1
+                end
+                x += 1
+            end
+            if found == @board.width - 1
+                x = 0
+                while x < @board.width do 
+                    if @board.get_tile(x, y) == 0
+                        @board.set_tile(x, y, @piece)
+                    end
+                    x += 1
+                end
+                return true
+            end
+            x = 0
+            found = 0
+            y += 1
+        end
+
+        #Down
+        x = 0
+        y = 0
+        found = 0
+        while x < @board.width do 
+            while y < @board.height do
+                if @board.get_tile(x, y) == @piece
+                    found -= 1
+                elsif @board.get_tile(x, y) != 0
+                    found += 1
+                end
+                y += 1
+            end
+            if found == @board.height - 1
+                y = 0
+                while y < @board.height do
+                    if @board.get_tile(x, y) == 0
+                        @board.set_tile(x, y, @piece)
+                    end
+                    y += 1
+                end
+                return true
+            end
+            y = 0
+            found = 0
+            x += 1
+        end
+
+        #TL > BR
+        x = 0
+        found = 0
+        while x < @board.width do
+            if @board.get_tile(x, x) == @piece
+                found -= 1
+            elsif @board.get_tile(x, x) != 0
+                found += 1
+            end
+
+            if found == @board.width - 1
+                x = 0
+                while x < @board.width do
+                    if @board.get_tile(x, x) == 0
+                        @board.set_tile(x, x, piece)
+                    end
+                    x += 1
+                end
+                return true
+            end
+            x += 1
+        end
+
+        #BL > TR
+        x = 0
+        y = @board.height - 1
+        found = 0
+        while x < @board.width do
+            if @board.get_tile(x, y) == @piece
+                found -= 1
+            elsif @board.get_tile(x, y) != 0
+                found += 1
+            end
+
+            if found == @board.width - 1
+                x = 0
+                y = @board.height-1
+                while x < @board.width do
+                    if @board.get_tile(x, y) == 0
+                        @board.set_tile(x, y, @piece)
+                    end
+                    x += 1
+                    y -= 1
+                end
+                return true
+            end
+            x += 1
+            y -= 1
+        end
+        false
+    end
 end
 
-# Win: If the player has two in a row, they can place a third to get three in a row.
+# ~Win: If the player has two in a row, they can place a third to get three in a row.
 # Block: If the opponent has two in a row, the player must play the third themselves to block the opponent.
 # Fork: Create an opportunity where the player has two threats to win (two non-blocked lines of 2).
 # Blocking an opponent's fork: If there is only one possible fork for the opponent, the player should block it. Otherwise, the player should block any forks in any way that simultaneously allows them to create two in a row. Otherwise, the player should create a two in a row to force the opponent into defending, as long as it doesn't result in them creating a fork. For example, if "X" has two opposite corners and "O" has the center, "O" must not play a corner in order to win. (Playing a corner in this scenario creates a fork for "X" to win.)
