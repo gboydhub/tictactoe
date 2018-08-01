@@ -95,4 +95,6 @@ class GameBoard
 end
 
 class BasePlayer
+    def take_turn(game_board)
+    end
 end
