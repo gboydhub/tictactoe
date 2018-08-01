@@ -293,4 +293,17 @@ class TestTicTacToe < Minitest::Test
         plr.take_turn()
         assert_equal(:X, board.get_tile(0, 1))
     end
+
+    def test_unbeatable_check_win
+        plr = UnbeatablePlayer.new
+        board = GameBoard.new
+        plr.set_board(board)
+        plr.piece = :X
+
+        board.set_tile(0, 0, :X)
+        board.set_tile(1, 0, :X)
+        plr.take_turn()
+        assert_equal(:X, board.check_winner())
+    end
+
 end
