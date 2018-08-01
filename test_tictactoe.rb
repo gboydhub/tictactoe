@@ -192,7 +192,7 @@ class TestTicTacToe < Minitest::Test
             assert_equal(true, plr.take_turn())
             counter += 1
         end
-        
+
         counter = 0
         while counter < (board.width * board.height) do
             assert_equal(:x, board.get_tile(counter % 3, (counter / 3).floor))

@@ -85,6 +85,10 @@ class GameBoard
             return last_piece
         end
 
+        if @turns_taken >= @width * @height
+            return "Draw"
+        end
+
         false
     end
 
