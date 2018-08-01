@@ -93,12 +93,23 @@ class GameBoard
     end
 
     def reset()
-        @board = Array.new(@width) {Array.new(@height, 0)}
+        x = 0
+        y = 0
+        while x < @width do 
+            while y < @height do
+                @board[x][y] = 0
+                y += 1
+            end
+            y = 0
+            x += 1
+        end
     end
 
     attr_reader :width
     attr_reader :height
     attr_reader :turns_taken
+
+    attr_reader :board
 end
 
 class BasePlayer
