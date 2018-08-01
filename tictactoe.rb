@@ -152,7 +152,8 @@ class SequentialPlayer < BasePlayer
                 if @board.get_tile(f_x, f_y) == @piece
                     if @board.get_tile(f_x - 1, f_y) == 0
                         find_piece = [f_x-1, f_y]
-                        break;
+                    elsif @board.get_tile(f_x + 1, f_y) == 0
+                        find_piece = [f_x+1, f_y]
                     end
                 end
                 f_y += 1
