@@ -90,7 +90,18 @@ end
 ai_list = []
 ai_gen_counter = 2
 while ai_gen_counter > num_humans
-    ai_list << RandomPlayer.new
+    ai_type = 0
+    while ai_type < 1 || ai_type > 2 do
+        puts "Please select an AI type for computer player #{ai_gen_counter}"
+        puts "1. Random\n2. Sequential"
+        print "[1, 2]: "
+        ai_type = gets.chomp.to_i
+    end
+    if ai_type == 1
+        ai_list << RandomPlayer.new
+    else
+        ai_list << SequentialPlayer.new
+    end
     ai_gen_counter -= 1
 end
 
@@ -109,7 +120,7 @@ while !board.check_winner() do
         ai_list[board.turns_taken % 2].take_turn()
     elsif num_humans == 1
         if board.turns_taken % 2 == player1_turn
-            ask_player_move(board, player_piece, 0)
+            ask_player_move(board, player_piece, 0, player1_turn)
         else
             ai_list[0].take_turn()
         end
