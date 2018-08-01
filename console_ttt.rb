@@ -1,7 +1,5 @@
 require_relative 'tictactoe.rb'
 
-avail_pieces = ['O', 'X']
-
 def display_board(board)
     puts " |1 2 3"
     puts "-------"
@@ -23,13 +21,19 @@ def display_board(board)
     end
 end
 
-def ask_player_move(board, piece)
+def ask_player_move(board, player_pieces, turn, p1_turn)
     pick_move = ""
     valid_move = false
     x_loc = 0
     y_loc = 0
+    player_message = "Player 1"
+    cur_piece = player_pieces[0]
+    if player_pieces.length == 2 && turn != p1_turn
+        player_message = "Player 2"
+        cur_piece = player_pieces[1]
+    end
     while valid_move == false do
-        print "\n#{piece}, it is your turn.\nChoose a location [ex B3]:"
+        print "\n#{player_message}, it is your turn.\nChoose a location [ex B3]:"
         move_picked = gets.chomp
         if move_picked.length == 2
             y_loc = move_picked[0]
@@ -40,7 +44,7 @@ def ask_player_move(board, piece)
                     x_loc = x_loc.to_i - 1
                     y_loc = (y_loc.ord - "A".ord)
                     if y_loc < board.height #Y is valid
-                        if board.get_tile(x_loc, y_loc) == 0 && board.set_tile(x_loc, y_loc, piece) #Move is valid on board
+                        if board.get_tile(x_loc, y_loc) == 0 && board.set_tile(x_loc, y_loc, cur_piece) #Move is valid on board
                             valid_move = true
                         else
                             puts "That is an invalid move, try another."
@@ -52,8 +56,10 @@ def ask_player_move(board, piece)
     end
 end
 
-
+avail_pieces = ['O', 'X']
 num_humans = -1
+player_piece = []
+
 while num_humans < 0 || num_humans > 2
     print "How many human players [0-2]: "
     num_humans = gets.chomp.to_i
@@ -103,16 +109,12 @@ while !board.check_winner() do
         ai_list[board.turns_taken % 2].take_turn()
     elsif num_humans == 1
         if board.turns_taken % 2 == player1_turn
-            ask_player_move(board, player_piece[0])
+            ask_player_move(board, player_piece, 0)
         else
             ai_list[0].take_turn()
         end
     else
-        if board.turns_taken % 2 == 0
-            ask_player_move(board, :O)
-        else
-            ask_player_move(board, :X)
-        end
+        ask_player_move(board, player_piece, board.turns_taken % 2, player1_turn)
     end
 end
 
