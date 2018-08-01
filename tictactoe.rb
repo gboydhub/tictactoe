@@ -283,9 +283,32 @@ class UnbeatablePlayer < BasePlayer
                 return true
             end
             x += 1
-            fouund = 0
         end
 
+        #BL > TR
+        x = 0
+        y = @board.height - 1
+        found = 0
+        while x < @board.width do
+            if @board.get_tile(x, y) == @piece
+                found += 1
+            elsif @board.get_tile(x, x) != 0
+                found -= 1
+            end
+
+            if found == @board.width - 1
+                x = 0
+                y = @board.height-1
+                while x < @board.width do
+                    @board.set_tile(x, y, piece)
+                    x += 1
+                    y -= 1
+                end
+                return true
+            end
+            x += 1
+            y -= 1
+        end
         false
     end
 end
