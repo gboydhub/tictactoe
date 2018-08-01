@@ -99,3 +99,6 @@ class BasePlayer
         @board = game_board
     end
 end
+
+class RandomPlayer < BasePlayer
+end
