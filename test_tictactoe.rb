@@ -127,4 +127,10 @@ class TestTicTacToe < Minitest::Test
     def test_player_base
         plr = BasePlayer.new
     end
+
+    def test_player_base_taketurn
+        plr = BasePlayer.new
+        board = GameBoard.new
+        plr.take_turn(board)
+    end
 end
