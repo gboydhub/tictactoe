@@ -459,5 +459,12 @@ class TestTicTacToe < Minitest::Test
         board.set_tile(2, 2, :O)
         board.set_tile(1, 0, :O)
         assert_equal([0, 2], plr.find_potential_fork(:X))
+        board.reset()
+
+        board.set_tile(0, 0, :X)
+        board.set_tile(2, 2, :X)
+        board.set_tile(1, 1, :O)
+        board.set_tile(2, 0, :O)
+        assert_equal([0, 2], plr.find_potential_fork(:X))
     end
 end
