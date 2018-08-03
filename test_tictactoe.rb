@@ -395,6 +395,7 @@ class TestTicTacToe < Minitest::Test
         board = GameBoard.new
         plr.set_board(board)
         plr.piece = :X
+        plr.enemy_piece = :O
 
         board.set_tile(0, 0, :O)
         board.set_tile(1, 0, :O)
