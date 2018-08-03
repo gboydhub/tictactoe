@@ -91,16 +91,18 @@ ai_list = []
 ai_gen_counter = 2
 while ai_gen_counter > num_humans
     ai_type = 0
-    while ai_type < 1 || ai_type > 2 do
+    while ai_type < 1 || ai_type > 3 do
         puts "Please select an AI type for computer player #{ai_gen_counter}"
-        puts "1. Random\n2. Sequential"
-        print "[1, 2]: "
+        puts "1. Random\n2. Sequential\n3. Unbeatable"
+        print "[1, 2, 3]: "
         ai_type = gets.chomp.to_i
     end
     if ai_type == 1
         ai_list << RandomPlayer.new
-    else
+    elsif ai_type == 2
         ai_list << SequentialPlayer.new
+    else
+        ai_list << UnbeatablePlayer.new
     end
     ai_gen_counter -= 1
 end
