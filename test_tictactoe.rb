@@ -420,4 +420,44 @@ class TestTicTacToe < Minitest::Test
         assert_equal(:X, board.get_tile(1, 1))
         board.reset()
     end
+
+    def test_opposite_position
+        plr = UnbeatablePlayer.new
+        board = GameBoard.new
+        plr.set_board(board)
+
+        assert_equal(0, plr.opp_pos(2))
+        assert_equal(2, plr.opp_pos(0))
+        assert_equal(1, plr.opp_pos(1))
+    end
+
+    def test_opposite_tile
+        plr = UnbeatablePlayer.new
+        board = GameBoard.new
+        plr.set_board(board)
+
+        board.set_tile(0, 0, :X)
+        assert_equal(:X, plr.opposite_tile(2, 2))
+
+        board.set_tile(2, 2, :O)
+        assert_equal(:O, plr.opposite_tile(0, 0))
+
+        board.set_tile(1, 2, :R)
+        assert_equal(:R, plr.opposite_tile(1, 0))
+        
+        board.set_tile(2, 1, :T)
+        assert_equal(:T, plr.opposite_tile(0, 1))
+    end
+    
+    def test_find_fork
+        plr = UnbeatablePlayer.new
+        board = GameBoard.new
+        plr.set_board(board)
+
+        board.set_tile(0, 0, :X)
+        board.set_tile(1, 1, :X)
+        board.set_tile(2, 2, :O)
+        board.set_tile(1, 0, :O)
+        assert_equal([0, 2], plr.find_potential_fork(:X))
+    end
 end

@@ -424,10 +424,106 @@ class UnbeatablePlayer < BasePlayer
         end
         false
     end
+
+    #Assumes board size 3x3
+    def opp_pos(pos)
+        if pos == 0
+            pos = @board.width - 1
+        elsif pos == @board.width - 1
+            pos = 0
+        end
+        return pos
+    end
+
+    def beside_x(x)
+        if x == 0
+            return 1
+        end
+        return x-1
+    end
+
+    def beside_y(y)
+        if y==0
+            return 1
+        end
+        return y-1
+    end
+
+    def opposite_tile(x, y)
+        return @board.get_tile(opp_pos(x), opp_pos(y))
+    end
+
+    def fork_pattern(basex, basey)
+        if @board.get_tile(basex, basey) == 0 && @board.get_tile(beside_x(basex), basey) == 0
+            if opposite_tile(basex, basey) == 0
+                return [basex, basey]
+            end
+            if opposite_tile(beside_x(basex), basey) == 0
+                return [beside_x(basex), basey]
+            end
+            if @board.get_tile(opp_pos(basex), beside_y(basey)) == 0 && opposite_tile(basex, basey) == 0
+                if  @board.get_tile(basex, beside_y(basey)) == 0
+                    return [opp_pos(basex), beside_y(basey)]
+                end
+                if @board.get_tile(basex, basey) == 0
+                    return [opp_pos(basex), opp_pos(basey)]
+                end
+            end
+        end
+        false
+    end
+
+    def find_potential_fork(symbol)
+        if @board.get_tile(0, 0) == symbol && @board.get_tile(2, 2) == symbol
+            #TL/BR
+            if @board.get_tile(2, 0) == 0 && @board.get_tile(1, 0) == 0 && @board.get_tile(2, 1) == 0
+                return [2, 0] #Mark TR
+            end
+            if @board.get_tile(0, 2) == 0 && @board.get_tile(0, 1) == 0 && @board.get_tile(1, 2) == 0
+                return [0, 2] #Mark BL
+            end
+        end
+
+        if @board.get_tile(2, 0) == symbol && @board.get_tile(0, 2) == symbol
+            #TR/BL
+            if @board.get_tile(0, 0) == 0 && @board.get_tile(0, 1) == 0 && @board.get_tile(1, 0) == 0
+                return [0, 0] #Mark TL
+            end
+            if @board.get_tile(2, 2) == 0 && @board.get_tile(1, 2) == 0 && @board.get_tile(2, 1) == 0
+                return [2, 2] #Mark BR
+            end
+        end
+
+        if @board.get_tile(1, 1) == symbol
+            #Check around center
+            if @board.get_tile(0, 0) == symbol || opposite_tile(0, 0) == symbol
+                found_pattern = fork_pattern(2, 0)
+                if found_pattern != false
+                    return found_pattern
+                end
+                found_pattern = fork_pattern(0, 2)
+                if found_pattern != false
+                    return found_pattern
+                end
+            end
+            if @board.get_tile(2, 0) == symbol || opposite_tile(2, 0) == symbol
+                found_pattern = fork_pattern(0, 0)
+                if found_pattern != false
+                    return found_pattern
+                end
+                found_pattern = fork_pattern(2, 2)
+                if found_pattern != false
+                    return found_pattern
+                end
+            end
+        end
+
+        false
+    end
 end
 
 # ~Win: If the player has two in a row, they can place a third to get three in a row.
-# Block: If the opponent has two in a row, the player must play the third themselves to block the opponent.
+# ~Block: If the opponent has two in a row, the player must play the third themselves to block the opponent.
 # Fork: Create an opportunity where the player has two threats to win (two non-blocked lines of 2).
 # Blocking an opponent's fork: If there is only one possible fork for the opponent, the player should block it. Otherwise, the player should block any forks in any way that simultaneously allows them to create two in a row. Otherwise, the player should create a two in a row to force the opponent into defending, as long as it doesn't result in them creating a fork. For example, if "X" has two opposite corners and "O" has the center, "O" must not play a corner in order to win. (Playing a corner in this scenario creates a fork for "X" to win.)
 
