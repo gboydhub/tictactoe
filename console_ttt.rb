@@ -112,12 +112,17 @@ board = GameBoard.new
 ai_list.each_with_index do |val, ind|
     ai_list[ind].set_board(board)
     ai_list[ind].piece = avail_pieces[ind]
+    ai_list[ind].enemy_piece = avail_pieces[0]
+    if ind == 0
+        ai_list[ind].enemy_piece = avail_pieces[1]
+    end
 end
 
 #Game loop
 while !board.check_winner() do
     system 'cls'
     display_board(board)
+    system 'pause'
     if num_humans == 0
         ai_list[board.turns_taken % 2].take_turn()
     elsif num_humans == 1

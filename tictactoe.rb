@@ -248,6 +248,23 @@ class UnbeatablePlayer < BasePlayer
             return true
         end
 
+        #Claim opposite corners
+        if @board.get_tile(0, 0) == @enemy_piece && opposite_tile(0, 0) == 0
+            @board.set_tile(2, 2, @piece)
+            return true
+        end
+        if @board.get_tile(2, 2) == @enemy_piece && @board.get_tile(0, 0) == 0
+            @board.set_tile(0, 0, @piece)
+            return true
+        end
+        if @board.get_tile(2, 0) == @enemy_piece && @board.get_tile(0, 2) == 0
+            @board.set_tile(0, 2, @piece)
+            return true
+        end
+        if @board.get_tile(0, 2) == @enemy_piece && @board.get_tile(2, 0) == 0
+            @board.set_tile(2, 0, @piece)
+            return true
+        end
         #Claim corner
         if @board.get_tile(0, 0) == 0
             @board.set_tile(0, 0, @piece)
