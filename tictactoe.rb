@@ -103,6 +103,7 @@ class GameBoard
             y = 0
             x += 1
         end
+        turns_taken = 0
     end
 
     attr_reader :width
@@ -251,6 +252,7 @@ class UnbeatablePlayer < BasePlayer
         if @board.get_tile(0, 0) == 0
             @board.set_tile(0, 0, @piece)
             return true
+        end
         if @board.get_tile(0, 2) == 0
             @board.set_tile(0, 2, @piece)
             return true

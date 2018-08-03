@@ -467,4 +467,62 @@ class TestTicTacToe < Minitest::Test
         board.set_tile(2, 0, :O)
         assert_equal([0, 2], plr.find_potential_fork(:X))
     end
+
+    def test_ultimate_ai
+        plr1 = UnbeatablePlayer.new
+        plr2 = RandomPlayer.new
+        plr3 = SequentialPlayer.new
+        board = GameBoard.new
+        plr1.set_board(board)
+        plr2.set_board(board)
+        plr3.set_board(board)
+        plr1.piece = "X"
+        plr1.enemy_piece = "O"
+        plr2.piece = "O"
+        plr3.piece = "O"
+
+        counter = 0
+        while counter < 100 do #Yep, make sure it doesnt lose 100 games
+            winner = false
+            while !winner do
+                if counter % 2 == 0 #Keep it fair, 50/50 first turns
+                    plr1.take_turn()
+                    if !board.check_winner()
+                        plr2.take_turn()
+                    end
+                else
+                    plr2.take_turn()
+                    if !board.check_winner()
+                        plr1.take_turn()
+                    end
+                end
+                winner = board.check_winner()
+            end
+            refute_equal("O", winner)
+            counter += 1
+            board.reset()
+        end
+
+        counter = 0
+        while counter < 100 do #Another hundred vs sequential
+            winner = false
+            while !winner do
+                if counter % 2 == 0 #Keep it fair, 50/50 first turns
+                    plr1.take_turn()
+                    if !board.check_winner()
+                        plr3.take_turn()
+                    end
+                else
+                    plr3.take_turn()
+                    if !board.check_winner()
+                        plr1.take_turn()
+                    end
+                end
+                winner = board.check_winner()
+            end
+            refute_equal("O", winner)
+            counter += 1
+            board.reset()
+        end
+    end
 end
