@@ -204,12 +204,20 @@ end
 
 class UnbeatablePlayer < BasePlayer
     def take_turn()
+        #Make winning move
         next_move = check_win()
         if next_move
             return true
         end
+        #Block losing move
         next_move = block_win()
         if next_move
+            return true
+        end
+        #Try and create fork
+        next_move = find_potential_fork(@piece)
+        if next_move
+            @board.set_tile(next_move[0], next_move[1], @piece)
             return true
         end
         false
