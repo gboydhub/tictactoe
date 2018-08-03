@@ -113,6 +113,7 @@ end
 class BasePlayer
     def initialize
         @piece = 0
+        @enemy_piece = 0
     end
 
     def set_board(game_board)
@@ -124,6 +125,7 @@ class BasePlayer
     end
 
     attr_accessor :piece
+    attr_accessor :enemy_piece
 end
 
 class RandomPlayer < BasePlayer
@@ -203,6 +205,7 @@ class SequentialPlayer < BasePlayer
 end
 
 class UnbeatablePlayer < BasePlayer
+
     def take_turn()
         #Make winning move
         next_move = check_win()
@@ -219,6 +222,23 @@ class UnbeatablePlayer < BasePlayer
         if next_move
             @board.set_tile(next_move[0], next_move[1], @piece)
             return true
+        end
+        #Check potential enemy forks
+        next_move = find_potential_fork(@enemy_piece)
+        if next_move
+            if opposite_tile(next_move[0], next_move[1]) == 0
+                #2 forks, force defend
+                if @board.get_tile(beside_x(next_move[0]), next_move[1]) == 0 && opposite_tile(beside_x(next_move[0]), next_move[1]) == 0
+                    @board.set_tile(beside_x(next_move[0]), next_move[1], @piece)
+                    return true
+                elsif @board.get_tile(next_move[0], beside_y(next_move[1])) == 0 && opposite_tile(next_move[0], beside_y(next_move[1])) == 0
+                    @board.set_tile(next_move[0], beside_y(next_move[1]), @piece)
+                    return true
+                end
+            else
+                @board.set_tile(next_move[0], next_move[1], @piece)
+                return true
+            end
         end
         false
     end
@@ -532,7 +552,7 @@ end
 
 # ~Win: If the player has two in a row, they can place a third to get three in a row.
 # ~Block: If the opponent has two in a row, the player must play the third themselves to block the opponent.
-# Fork: Create an opportunity where the player has two threats to win (two non-blocked lines of 2).
+# ~Fork: Create an opportunity where the player has two threats to win (two non-blocked lines of 2).
 # Blocking an opponent's fork: If there is only one possible fork for the opponent, the player should block it. Otherwise, the player should block any forks in any way that simultaneously allows them to create two in a row. Otherwise, the player should create a two in a row to force the opponent into defending, as long as it doesn't result in them creating a fork. For example, if "X" has two opposite corners and "O" has the center, "O" must not play a corner in order to win. (Playing a corner in this scenario creates a fork for "X" to win.)
 
 # Center: A player marks the center. (If it is the first move of the game, playing on a corner gives the second player more opportunities to make a mistake and may therefore be the better choice; however, it makes no difference between perfect players.)
