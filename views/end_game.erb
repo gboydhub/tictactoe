@@ -1,0 +1,16 @@
+
+    <div id="game_board">
+        <% (0..game_inst.height-1).each do |y| %>
+            <% (0..game_inst.width-1).each do |x| %>
+                <button name="tile_clicked" id="<%=x%>_<%=y%>" value="<%=x%>_<%=y%>" class="tile_btn">
+                    <% tile = game_inst.get_tile(x, y) %>
+                    <% if tile==0 %>
+                        <% tile = "&nbsp;" %>
+                    <% end %>
+                <%= tile %></button>
+            <% end %>
+            <br>
+        <% end %>
+    </div>
+
+Game Winner: <%= victor %>

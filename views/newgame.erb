@@ -1,1 +1,10 @@
-Future site of a thing
+<form action="turn" method="post">
+<div id="game_board">
+    <% (0..2).each do |y| %>
+        <% (0..2).each do |x| %>
+            <button name="tile_clicked" id="<%=x%>_<%=y%>" value="<%=x%>_<%=y%>" class="tile_btn"></button>
+        <% end %>
+        <br>
+    <% end %>
+</div>
+</form>

@@ -5,3 +5,19 @@ body
   font-size: 1.2rem;
   color: white;
 }
+
+.tile_btn {
+  background-color: green;
+  width: 4rem;
+  height: 4rem;
+  border: none;
+  display: inline-block;
+  margin: 2px;
+  outline: none;
+  color: white;
+  font-size: 1rem;
+  overflow-wrap: 
+}
+.tile_btn:hover {
+  background-color: blue;
+}
