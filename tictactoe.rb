@@ -389,7 +389,7 @@ class UnbeatablePlayer < BasePlayer
         while x < @board.width do
             if @board.get_tile(x, y) == @piece
                 found += 1
-            elsif @board.get_tile(x, x) != 0
+            elsif @board.get_tile(x, y) != 0
                 found -= 1
             end
             x += 1
