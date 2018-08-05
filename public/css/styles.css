@@ -38,6 +38,21 @@ body
   background-color: blue;
 }
 
+.next-btn {
+  background-color: green;
+  width: 9rem;
+  height: 3rem;
+  border: none;
+  display: inline-block;
+  margin: 10px;
+  outline: none;
+  color: white;
+  font-size: 1.3rem;
+}
+.next-btn:hover {
+  background-color: blue;
+}
+
 #title {
   width: 16rem;
   font-size: 1rem;

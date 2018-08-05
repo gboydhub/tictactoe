@@ -4,9 +4,9 @@ require_relative 'tictactoe'
 enable :sessions
 
 get '/' do
-  session[:gameobj] = GameBoard.new
-  session[:player1] = "Human"
-  session[:player2] = "Unbeatable"
+  session[:gameobj] = nil
+  session[:player1] = nil
+  session[:player2] = nil
   erb :newgame
 end
 
@@ -14,15 +14,25 @@ post '/turn' do
   if !session[:gameobj]
     redirect '/'
   end
-  cur_board = session[:gameobj]
 
-  player_move = params[:tile_clicked].split("_")
-  if cur_board.get_tile(player_move[0].to_i, player_move[1].to_i) == 0
-    cur_board.set_tile(player_move[0].to_i, player_move[1].to_i, "O")
+  cur_piece = "O"
+  if session[:gameobj].turns_taken % 2 == 0
+    if session[:player2] != "Human"
+      redirect '/next_move'
+    end
+  else
+    if session[:player1] != "Human"
+      redirect '/next_move'
+    end
+    cur_piece = "X"
   end
-  session[:gameobj] = cur_board
+  
+  player_move = params[:tile_clicked].split("_")
+  if session[:gameobj].get_tile(player_move[0].to_i, player_move[1].to_i) == 0
+    session[:gameobj].set_tile(player_move[0].to_i, player_move[1].to_i, cur_piece)
+  end
 
-  if cur_board.check_winner()
+  if session[:gameobj].check_winner()
     redirect '/end_game'
   else
     redirect '/next_move'
@@ -62,7 +72,7 @@ post '/new_game' do
     session[:player2].set_board(session[:gameobj])
   end
 
-
+  redirect '/next_move'
 end
 
 get '/next_move' do
@@ -70,28 +80,34 @@ get '/next_move' do
     redirect '/'
   end
 
-  game_board = session[:gameobj]
-  if game_board.turns_taken % 2 == 0 #Ninja's go first (Duh)
+  human_turn = true
+  if session[:gameobj].turns_taken % 2 == 0 #Ninja's go first (Duh)
     if session[:player2] != "Human"
       session[:player2].take_turn()
+      if session[:player1] != "Human"
+        human_turn = false
+      end
     end
   else
     if session[:player1] != "Human"
       session[:player1].take_turn()
+      if session[:player2] != "Human"
+        human_turn = false
+      end
     end
   end
   if session[:gameobj].check_winner()
     redirect '/end_game'
   end
 
-  erb :next_move, locals: {game_inst: session[:gameobj]}
+  erb :next_move, locals: {game_inst: session[:gameobj], player_turn: human_turn}
 end
 
 get '/end_game' do
   if !session[:gameobj]
     redirect '/'
   end
-  
+
   cur_board = session[:gameobj]
   winner = cur_board.check_winner();
   erb :end_game, locals: {game_inst: session[:gameobj], victor: winner}, trim: '-'

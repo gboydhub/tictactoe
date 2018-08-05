@@ -2,12 +2,14 @@
     <div id="game_board">
         <% (0..game_inst.height-1).each do |y| %>
             <% (0..game_inst.width-1).each do |x| %>
-                <button name="tile_clicked" id="<%=x%>_<%=y%>" value="<%=x%>_<%=y%>" class="tile_btn">
-                    <% tile = game_inst.get_tile(x, y) %>
-                    <% if tile==0 %>
-                        <% tile = "&nbsp;" %>
-                    <% end %>
-                <%= tile %></button>
+                <% bg_img = "" %>
+                <% if game_inst.get_tile(x, y) == "X" %>
+                    <% bg_img = " style='background: green url(/images/pirate.png) no-repeat center;background-size:95%;'" %>
+                <% elsif game_inst.get_tile(x, y) == "O" %>
+                    <% bg_img = " style='background: green url(/images/ninja.png) no-repeat center;background-size:95%;'" %>
+                <% end %>
+                <button name="tile_clicked" id="<%=x%>_<%=y%>" value="<%=x%>_<%=y%>" class="tile_btn" <%= bg_img %>>&nbsp;
+                </button>
             <% end %>
             <br>
         <% end %>
