@@ -112,14 +112,21 @@ board = GameBoard.new
 ai_list.each_with_index do |val, ind|
     ai_list[ind].set_board(board)
     ai_list[ind].piece = avail_pieces[ind]
-    ai_list[ind].enemy_piece = avail_pieces[0]
-    if ind == 0
-        ai_list[ind].enemy_piece = avail_pieces[1]
+    if ai_list.length == 2
+        if ind == 0
+            ai_list[ind].enemy_piece = avail_pieces[1]
+        else
+            ai_list[ind].enemy_piece = avail_pieces[0]
+        end
+    else
+        ai_list[ind].enemy_piece = player_piece[0]
     end
 end
+p avail_pieces
 
 #Game loop
 while !board.check_winner() do
+    system 'pause'
     system 'cls'
     display_board(board)
     if num_humans == 0
