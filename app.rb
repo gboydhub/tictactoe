@@ -42,6 +42,9 @@ get '/next_move' do
     p2.set_board(game_board)
     p2.take_turn()
     session[:gameobj] = game_board
+    if game_board.check_winner()
+      redirect '/end_game'
+    end
   end
 
   erb :next_move, locals: {game_inst: session[:gameobj]}
