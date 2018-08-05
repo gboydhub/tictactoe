@@ -110,5 +110,10 @@ get '/end_game' do
 
   cur_board = session[:gameobj]
   winner = cur_board.check_winner();
+  if winner == "X"
+    winner = "Pirates!"
+  elsif winner == "O"
+    winner = "Ninjas!"
+  end
   erb :end_game, locals: {game_inst: session[:gameobj], victor: winner}, trim: '-'
 end
