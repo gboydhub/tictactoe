@@ -1,10 +1,44 @@
-<form action="turn" method="post">
-<div id="game_board">
-    <% (0..2).each do |y| %>
-        <% (0..2).each do |x| %>
-            <button name="tile_clicked" id="<%=x%>_<%=y%>" value="<%=x%>_<%=y%>" class="tile_btn"></button>
-        <% end %>
-        <br>
-    <% end %>
-</div>
+<form action="new_game" method="post">
+    <div id="title"><div id="piratename">Pirate's</div> vs <div id="ninjaname">Ninja's</div></div><br>
+    <div id="player1">
+        <img src="/images/pirate.png"><br>
+        <label class="custom_radio"> Human
+            <input type="radio" name="p1_type" value="human" onclick="hideOptions(1);" checked="checked">
+            <span class="checkmark"></span>
+        </label>
+        <label class="custom_radio"> Computer
+            <input type="radio" name="p1_type" value="ai" onclick="showOptions(1);">
+            <span class="checkmark"></span>
+        </label>
+        <div id="comp1_options" class="ai-slide">
+            <div class="custom-select red">
+            <select name="comp1_difficulty">
+                <option value="1">Random</option>
+                <option value="2">Sequential</option>
+                <option value="3">Unbeatable</option>
+            </select>
+            </div>
+        </div>
+    </div>
+    <div id="player2">
+        <img src="/images/ninja.png"><br>
+        <label class="custom_radio"> Human
+            <input type="radio" name="p2_type" value="human" onclick="hideOptions(2);" checked="checked">
+            <span class="checkmark"></span>
+        </label>
+        <label class="custom_radio"> Computer
+            <input type="radio" name="p2_type" value="ai" onclick="showOptions(2);">
+            <span class="checkmark"></span>
+        </label>
+        <div id="comp2_options" class="ai-slide">
+            <div class="custom-select red">
+            <select name="comp1_difficulty">
+                <option value="1">Random</option>
+                <option value="2">Sequential</option>
+                <option value="3">Unbeatable</option>
+            </select>
+            </div>
+        </div>
+    </div><br>
+    <button class="start_btn">Start Game</button>
 </form>
