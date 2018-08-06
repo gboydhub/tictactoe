@@ -8,6 +8,9 @@ body
   color: white;
 }
 
+#game_board {
+  margin-top: 20%;
+}
 .tile_btn {
   background-color: green;
   width: 4rem;
@@ -21,6 +24,7 @@ body
 }
 .tile_btn:hover {
   background-color: blue;
+  opacity: 0.5;
 }
 
 .start_btn {

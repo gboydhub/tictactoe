@@ -1,4 +1,4 @@
-<form action="new_game" method="post">
+<form action="new_game" method="post" id="optionsForm">
     <div id="title"><div id="piratename">Pirate's</div> vs <div id="ninjaname">Ninja's</div></div><br>
     <div id="player1">
         <img src="/images/pirate.png"><br>
@@ -24,10 +24,12 @@
         <img src="/images/ninja.png"><br>
         <label class="custom_radio"> Human
             <input type="radio" name="p2_type" value="human" onclick="hideOptions(2);" checked="checked">
+            <input type="hidden" id="shh" name="eggy" value="false">
             <span class="checkmark"></span>
         </label>
         <label class="custom_radio"> Computer
             <input type="radio" name="p2_type" value="ai" onclick="showOptions(2);">
+            <script type="text/javascript" src="/js/easteregg.js"></script>
             <span class="checkmark"></span>
         </label>
         <div id="comp2_options" class="ai-slide">

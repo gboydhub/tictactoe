@@ -7,6 +7,7 @@ get '/' do
   session[:gameobj] = nil
   session[:player1] = nil
   session[:player2] = nil
+  session[:secret] = "false"
   erb :newgame
 end
 
@@ -44,6 +45,10 @@ post '/new_game' do
   session[:player1] = "Human"
   session[:player2] = "Human" #Default players to human to catch wonky form data
 
+  if params[:eggy] == "true"
+    session[:secret] = "true"
+  end
+
   if params[:p1_type] == "ai" #X is pirate
     case params[:comp1_difficulty]
     when "1"
@@ -75,6 +80,21 @@ post '/new_game' do
   redirect '/next_move'
 end
 
+post '/reset_game' do
+  if !session[:gameobj]
+    redirect '/'
+  end
+
+  session[:gameobj] = GameBoard.new;
+  if session[:player1] != "Human"
+    session[:player1].set_board(session[:gameobj])
+  end
+  if session[:player2] != "Human"
+    session[:player2].set_board(session[:gameobj])
+  end
+  redirect '/next_move'
+end
+
 get '/next_move' do
   if !session[:gameobj]
     redirect '/'
@@ -100,7 +120,7 @@ get '/next_move' do
     redirect '/end_game'
   end
 
-  erb :next_move, locals: {game_inst: session[:gameobj], player_turn: human_turn}
+  erb :next_move, locals: {game_inst: session[:gameobj], player_turn: human_turn, secret_mode: session[:secret]}
 end
 
 get '/end_game' do
@@ -115,5 +135,5 @@ get '/end_game' do
   elsif winner == "O"
     winner = "Ninjas!"
   end
-  erb :end_game, locals: {game_inst: session[:gameobj], victor: winner}, trim: '-'
+  erb :end_game, locals: {game_inst: session[:gameobj], victor: winner, secret_mode: session[:secret]}
 end

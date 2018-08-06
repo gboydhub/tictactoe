@@ -1,14 +1,27 @@
 <% if player_turn == true %>
     <form action="turn" method="post">
 <% end %>
+<% img_path = "/images/" %>
+<% secret_img = ""%>
+<% if secret_mode == "true" %>
+    <% img_path = "/images/shh/" %>
+    <% secret_img = ", url(/images/shh/button.png) top left/cover no-repeat"%>
+    <% secret_base = "url(/images/shh/button.png) top left/cover no-repeat" %>
+    <script>
+        document.body.style = "background: black url(/images/shh/SeaShrine.gif) repeat-x;";
+    </script>
+<%end%>
     <div id="game_board">
         <% (0..game_inst.height-1).each do |y| %>
             <% (0..game_inst.width-1).each do |x| %>
                 <% bg_img = "" %>
+                <% if secret_mode == "true" %>
+                    <% bg_img = "style = 'background: url(/images/shh/button.png) top left/cover no-repeat'" %>
+                <% end %>
                 <% if game_inst.get_tile(x, y) == "X" %>
-                    <% bg_img = " style='background: green url(/images/pirate.png) no-repeat center;background-size:95%;'" %>
+                    <% bg_img = " style='background: url(#{img_path}pirate.png) no-repeat center/contain#{secret_img};'" %>
                 <% elsif game_inst.get_tile(x, y) == "O" %>
-                    <% bg_img = " style='background: green url(/images/ninja.png) no-repeat center;background-size:95%;'" %>
+                    <% bg_img = " style='background: url(#{img_path}ninja.png) no-repeat center/contain#{secret_img};'" %>
                 <% end %>
                 <button name="tile_clicked" id="<%=x%>_<%=y%>" value="<%=x%>_<%=y%>" class="tile_btn" <%= bg_img %>>&nbsp;
                 </button>
