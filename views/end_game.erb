@@ -27,18 +27,20 @@
         <% end %>
     </div>
 <% if secret_mode == "true" %>
-    <audio id="victorySong">
-        <source src="/mp3/victory.mp3" type="audio/mpeg">
-    </audio>
-    <script>
-        var song = document.getElementById("victorySong");
-        song.volume = 0.15;
-        song.play();
-    </script>
-    <% if victor == "Ninjas!" %>
-        <% victor = "Black Mage!" %>
-    <% elsif victor == "Pirates!" %>
-        <% victor = "Red Mage!" %>
+    <% if victor != "Draw" %>
+        <audio id="victorySong">
+            <source src="/mp3/victory.mp3" type="audio/mpeg">
+        </audio>
+        <script>
+            var song = document.getElementById("victorySong");
+            song.volume = 0.15;
+            song.play();
+        </script>
+        <% if victor == "Ninjas!" %>
+            <% victor = "Black Mage!" %>
+        <% elsif victor == "Pirates!" %>
+            <% victor = "Red Mage!" %>
+        <% end %>
     <% end %>
 <% end %>
 Game Winner: <%= victor %><br>
