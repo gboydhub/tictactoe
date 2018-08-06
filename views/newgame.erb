@@ -7,7 +7,7 @@
             <span class="checkmark"></span>
         </label>
         <label class="custom_radio"> Computer
-            <input type="radio" name="p1_type" value="ai" onclick="showOptions(1);">
+            <input type="radio" name="p1_type" id="p1sel" value="ai" onclick="showOptions(1);">
             <span class="checkmark"></span>
         </label>
         <div id="comp1_options" class="ai-slide">
@@ -28,7 +28,7 @@
             <span class="checkmark"></span>
         </label>
         <label class="custom_radio"> Computer
-            <input type="radio" name="p2_type" value="ai" onclick="showOptions(2);">
+            <input type="radio" name="p2_type" value="ai" id="p2sel" onclick="showOptions(2);">
             <script type="text/javascript" src="/js/easteregg.js"></script>
             <span class="checkmark"></span>
         </label>
@@ -47,3 +47,17 @@
     Tip:<br>
     Ninja's go first, because they are ninjas.</font>
 </form>
+
+<script>
+    var checkA = document.getElementById("p1sel");
+    var checkB = document.getElementById("p2sel");
+    console.log(checkA);
+    if(checkA.checked)
+    {
+        showOptions(1);
+    }
+    if(checkB.checked)
+    {
+        showOptions(2);
+    }
+</script>
