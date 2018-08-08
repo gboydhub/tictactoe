@@ -5,8 +5,8 @@ class SequentialPlayer < BasePlayer
         find_piece = []
         f_x = 0
         f_y = 0
-        while f_x < @board.width do
-            while f_y < @board.height do
+        while f_x < @board.size do
+            while f_y < @board.size do
                 if @board.get_tile(f_x, f_y) == @piece
                     if @board.get_tile(f_x - 1, f_y) == 0
                         find_piece = [f_x-1, f_y]
@@ -27,8 +27,8 @@ class SequentialPlayer < BasePlayer
         if find_piece == []
             f_x = 0
             f_y = 0
-            while f_y < @board.height do
-                while f_x < @board.width do
+            while f_y < @board.size do
+                while f_x < @board.size do
                     if @board.get_tile(f_x, f_y) == 0
                         find_piece = [f_x, f_y]
                         break

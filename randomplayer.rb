@@ -5,8 +5,8 @@ class RandomPlayer < BasePlayer
         valid_move_list = []
         check_x = 0
         check_y = 0
-        while check_x < @board.width do
-            while check_y < @board.height do
+        while check_x < @board.size do
+            while check_y < @board.size do
                 if @board.get_tile(check_x, check_y) == 0
                     valid_move_list << [check_x, check_y]
                 end

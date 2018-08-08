@@ -1,20 +1,19 @@
 class GameBoard
     def initialize(size=3)
-        @width = size
-        @height = size
+        @size = size
         @board = Array.new(size) {Array.new(size, 0)}
         @turns_taken = 0
     end
 
     def get_tile(x, y)
-        if x >= 0 && x < @width && y >= 0 && y < @height
+        if x >= 0 && x < @size && y >= 0 && y < @size
             return @board[x][y]
         end
         false 
     end
 
     def set_tile(x, y, marker)
-        if x >= 0 && x < @width && y >= 0 && y < @height
+        if x >= 0 && x < @size && y >= 0 && y < @size
             @board[x][y] = marker
             @turns_taken += 1
             return true
@@ -24,32 +23,32 @@ class GameBoard
 
     def check_winner()
         cross_counter = 0
-        while cross_counter < @height do
+        while cross_counter < @size do
             last_piece = @board[0][cross_counter]
             cur_x = 1
-            while cur_x < @width do
+            while cur_x < @size do
                 if @board[cur_x][cross_counter] != last_piece
                     break;
                 end
                 cur_x += 1
             end
-            if cur_x == @width && last_piece != 0
+            if cur_x == @size && last_piece != 0
                 return last_piece
             end
             cross_counter += 1
         end
 
         down_counter = 0
-        while down_counter < @width do
+        while down_counter < @size do
             last_piece = @board[down_counter][0]
             cur_y = 0
-            while cur_y < @height do
+            while cur_y < @size do
                 if @board[down_counter][cur_y] != last_piece
                     break;
                 end
                 cur_y += 1
             end
-            if cur_y == @height && last_piece != 0
+            if cur_y == @size && last_piece != 0
                 return last_piece
             end
             down_counter += 1
@@ -59,33 +58,33 @@ class GameBoard
         x_counter = 1
         y_counter = 1
         last_piece = @board[0][0]
-        while x_counter < @width do
+        while x_counter < @size do
             if @board[x_counter][y_counter] != last_piece
                 break;
             end
             x_counter += 1
             y_counter += 1
         end
-        if x_counter == @width && last_piece != 0
+        if x_counter == @size && last_piece != 0
             return last_piece
         end
 
         #Bottom left to top right
         x_counter = 1
-        y_counter = @height - 2
-        last_piece = @board[0][@height-1]
-        while x_counter < @width do
+        y_counter = @size - 2
+        last_piece = @board[0][@size-1]
+        while x_counter < @size do
             if @board[x_counter][y_counter] != last_piece
                 break;
             end
             x_counter += 1
             y_counter -= 1
         end
-        if x_counter == @width && last_piece != 0
+        if x_counter == @size && last_piece != 0
             return last_piece
         end
 
-        if @turns_taken >= @width * @height
+        if @turns_taken >= @size * @size
             return "Draw"
         end
 
@@ -93,22 +92,20 @@ class GameBoard
     end
 
     def reset()
-        # x = 0
-        # y = 0
-        # while x < @width do 
-        #     while y < @height do
-        #         @board[x][y] = 0
-        #         y += 1
-        #     end
-        #     y = 0
-        #     x += 1
-        # end
-        
-        @board = Array.new(@width) {Array.new(@height, 0)}
+        x = 0
+        y = 0
+        while x < @size do 
+            while y < @size do
+                @board[x][y] = 0
+                y += 1
+            end
+            y = 0
+            x += 1
+        end
         turns_taken = 0
     end
 
-    attr_reader :width
-    attr_reader :height
+    attr_reader :size
+    attr_reader :size
     attr_reader :turns_taken
 end

@@ -18,8 +18,7 @@ class TestTicTacToe < Minitest::Test
 
     def test_game_board_get_size
         test_board = GameBoard.new
-        assert_equal(3, test_board.width)
-        assert_equal(3, test_board.height)
+        assert_equal(3, test_board.size)
     end
 
     def test_game_board_get_tile
@@ -188,13 +187,13 @@ class TestTicTacToe < Minitest::Test
         plr.piece = :x
 
         counter = 0
-        while counter < (board.width * board.height) do
+        while counter < (board.size * board.size) do
             assert_equal(true, plr.take_turn())
             counter += 1
         end
 
         counter = 0
-        while counter < (board.width * board.height) do
+        while counter < (board.size * board.size) do
             assert_equal(:x, board.get_tile(counter % 3, (counter / 3).floor))
             counter += 1
         end

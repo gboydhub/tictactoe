@@ -31,11 +31,11 @@ class UnbeatablePlayer < BasePlayer
                     return true
                 end
                 #2 corner forks, force defend
-                if @board.get_tile(beside_x(next_move[0]), next_move[1]) == 0 && opposite_tile(beside_x(next_move[0]), next_move[1]) == 0
-                    @board.set_tile(beside_x(next_move[0]), next_move[1], @piece)
+                if @board.get_tile(beside(next_move[0]), next_move[1]) == 0 && opposite_tile(beside(next_move[0]), next_move[1]) == 0
+                    @board.set_tile(beside(next_move[0]), next_move[1], @piece)
                     return true
-                elsif @board.get_tile(next_move[0], beside_y(next_move[1])) == 0 && opposite_tile(next_move[0], beside_y(next_move[1])) == 0
-                    @board.set_tile(next_move[0], beside_y(next_move[1]), @piece)
+                elsif @board.get_tile(next_move[0], beside(next_move[1])) == 0 && opposite_tile(next_move[0], beside(next_move[1])) == 0
+                    @board.set_tile(next_move[0], beside(next_move[1]), @piece)
                     return true
                 end
             else
@@ -106,13 +106,16 @@ class UnbeatablePlayer < BasePlayer
         false
     end
 
+    def get_center()
+    end
+
     def check_win()
         found = 0
         x = 0
         y = 0
         #Across
-        while y < @board.height do 
-            while x < @board.width do 
+        while y < @board.size do 
+            while x < @board.size do 
                 if @board.get_tile(x, y) == @piece
                     found += 1
                 elsif @board.get_tile(x, y) != 0
@@ -120,9 +123,9 @@ class UnbeatablePlayer < BasePlayer
                 end
                 x += 1
             end
-            if found == @board.width - 1
+            if found == @board.size - 1
                 x = 0
-                while x < @board.width do 
+                while x < @board.size do 
                     @board.set_tile(x, y, @piece)
                     x += 1
                 end
@@ -137,8 +140,8 @@ class UnbeatablePlayer < BasePlayer
         x = 0
         y = 0
         found = 0
-        while x < @board.width do 
-            while y < @board.height do
+        while x < @board.size do 
+            while y < @board.size do
                 if @board.get_tile(x, y) == @piece
                     found += 1
                 elsif @board.get_tile(x, y) != 0
@@ -146,9 +149,9 @@ class UnbeatablePlayer < BasePlayer
                 end
                 y += 1
             end
-            if found == @board.height - 1
+            if found == @board.size - 1
                 y = 0
-                while y < @board.height do
+                while y < @board.size do
                     @board.set_tile(x, y, @piece)
                     y += 1
                 end
@@ -162,7 +165,7 @@ class UnbeatablePlayer < BasePlayer
         #TL > BR
         x = 0
         found = 0
-        while x < @board.width do
+        while x < @board.size do
             if @board.get_tile(x, x) == @piece
                 found += 1
             elsif @board.get_tile(x, x) != 0
@@ -171,9 +174,9 @@ class UnbeatablePlayer < BasePlayer
             x += 1
         end
 
-        if found == @board.width - 1
+        if found == @board.size - 1
             x = 0
-            while x < @board.width do
+            while x < @board.size do
                 @board.set_tile(x, x, piece)
                 x += 1
             end
@@ -182,9 +185,9 @@ class UnbeatablePlayer < BasePlayer
 
         #BL > TR
         x = 0
-        y = @board.height - 1
+        y = @board.size - 1
         found = 0
-        while x < @board.width do
+        while x < @board.size do
             if @board.get_tile(x, y) == @piece
                 found += 1
             elsif @board.get_tile(x, y) != 0
@@ -194,10 +197,10 @@ class UnbeatablePlayer < BasePlayer
             y -= 1
         end
 
-        if found == @board.width - 1
+        if found == @board.size - 1
             x = 0
-            y = @board.height-1
-            while x < @board.width do
+            y = @board.size-1
+            while x < @board.size do
                 @board.set_tile(x, y, piece)
                 x += 1
                 y -= 1
@@ -212,8 +215,8 @@ class UnbeatablePlayer < BasePlayer
         x = 0
         y = 0
         #Across
-        while y < @board.height do 
-            while x < @board.width do 
+        while y < @board.size do 
+            while x < @board.size do 
                 if @board.get_tile(x, y) == @enemy_piece
                     found += 1
                 elsif @board.get_tile(x, y) == @piece
@@ -221,9 +224,9 @@ class UnbeatablePlayer < BasePlayer
                 end
                 x += 1
             end
-            if found == @board.width - 1
+            if found == @board.size - 1
                 x = 0
-                while x < @board.width do 
+                while x < @board.size do 
                     if @board.get_tile(x, y) == 0
                         @board.set_tile(x, y, @piece)
                     end
@@ -240,8 +243,8 @@ class UnbeatablePlayer < BasePlayer
         x = 0
         y = 0
         found = 0
-        while x < @board.width do 
-            while y < @board.height do
+        while x < @board.size do 
+            while y < @board.size do
                 if @board.get_tile(x, y) == @enemy_piece
                     found += 1
                 elsif @board.get_tile(x, y) == @piece
@@ -249,9 +252,9 @@ class UnbeatablePlayer < BasePlayer
                 end
                 y += 1
             end
-            if found == @board.height - 1
+            if found == @board.size - 1
                 y = 0
-                while y < @board.height do
+                while y < @board.size do
                     if @board.get_tile(x, y) == 0
                         @board.set_tile(x, y, @piece)
                     end
@@ -267,7 +270,7 @@ class UnbeatablePlayer < BasePlayer
         #TL > BR
         x = 0
         found = 0
-        while x < @board.width do
+        while x < @board.size do
             if @board.get_tile(x, x) == @enemy_piece
                 found += 1
             elsif @board.get_tile(x, x) == @piece
@@ -275,9 +278,9 @@ class UnbeatablePlayer < BasePlayer
             end
             x += 1
         end
-        if found == @board.width - 1
+        if found == @board.size - 1
             x = 0
-            while x < @board.width do
+            while x < @board.size do
                 if @board.get_tile(x, x) == 0
                     @board.set_tile(x, x, piece)
                 end
@@ -288,9 +291,9 @@ class UnbeatablePlayer < BasePlayer
 
         #BL > TR
         x = 0
-        y = @board.height - 1
+        y = @board.size - 1
         found = 0
-        while x < @board.width do
+        while x < @board.size do
             if @board.get_tile(x, y) == @enemy_piece
                 found += 1
             elsif @board.get_tile(x, y) == @piece
@@ -299,10 +302,10 @@ class UnbeatablePlayer < BasePlayer
             x += 1
             y -= 1
         end
-        if found == @board.width - 1
+        if found == @board.size - 1
             x = 0
-            y = @board.height-1
-            while x < @board.width do
+            y = @board.size-1
+            while x < @board.size do
                 if @board.get_tile(x, y) == 0
                     @board.set_tile(x, y, @piece)
                 end
@@ -317,25 +320,18 @@ class UnbeatablePlayer < BasePlayer
     #Assumes board size 3x3
     def opp_pos(pos)
         if pos == 0
-            pos = @board.width - 1
-        elsif pos == @board.width - 1
+            pos = @board.size - 1
+        elsif pos == @board.size - 1
             pos = 0
         end
         return pos
     end
 
-    def beside_x(x)
+    def beside(x)
         if x == 0
             return 1
         end
         return x-1
-    end
-
-    def beside_y(y)
-        if y==0
-            return 1
-        end
-        return y-1
     end
 
     def opposite_tile(x, y)
@@ -343,16 +339,16 @@ class UnbeatablePlayer < BasePlayer
     end
 
     def fork_pattern(basex, basey)
-        if @board.get_tile(basex, basey) == 0 && @board.get_tile(beside_x(basex), basey) == 0
+        if @board.get_tile(basex, basey) == 0 && @board.get_tile(beside(basex), basey) == 0
             if opposite_tile(basex, basey) == 0
                 return [basex, basey]
             end
-            if opposite_tile(beside_x(basex), basey) == 0
-                return [beside_x(basex), basey]
+            if opposite_tile(beside(basex), basey) == 0
+                return [beside(basex), basey]
             end
-            if @board.get_tile(opp_pos(basex), beside_y(basey)) == 0 && opposite_tile(basex, basey) == 0
-                if  @board.get_tile(basex, beside_y(basey)) == 0
-                    return [opp_pos(basex), beside_y(basey)]
+            if @board.get_tile(opp_pos(basex), beside(basey)) == 0 && opposite_tile(basex, basey) == 0
+                if  @board.get_tile(basex, beside(basey)) == 0
+                    return [opp_pos(basex), beside(basey)]
                 end
                 if @board.get_tile(basex, basey) == 0
                     return [opp_pos(basex), opp_pos(basey)]
