@@ -91,6 +91,16 @@ class GameBoard
         false
     end
 
+    def get_center()
+        center = (@size/2).floor
+        get_tile(center, center)
+    end
+
+    def set_center(piece)
+        center = (@size/2).floor
+        set_tile(center, center, piece)
+    end
+
     def reset()
         x = 0
         y = 0

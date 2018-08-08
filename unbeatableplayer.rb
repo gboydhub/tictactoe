@@ -45,8 +45,8 @@ class UnbeatablePlayer < BasePlayer
         end
 
         #Claim center
-        if @board.get_tile(1, 1) == 0
-            @board.set_tile(1, 1, @piece)
+        if @board.get_center() == 0
+            @board.set_center(@piece)
             return true
         end
 
@@ -104,9 +104,6 @@ class UnbeatablePlayer < BasePlayer
             return true
         end
         false
-    end
-
-    def get_center()
     end
 
     def check_win()
