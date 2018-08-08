@@ -1,5 +1,5 @@
 require "minitest/autorun"
-require_relative "tictactoe.rb"
+require_relative "../tictactoe.rb"
 
 class TestTicTacToe < Minitest::Test
     def test_assert_that_1_equals_1
@@ -501,29 +501,10 @@ class TestTicTacToe < Minitest::Test
             end
             refute_equal("O", winner)
             counter += 1
-            board.reset()
-        end
-
-        counter = 0
-        while counter < 100 do #Another hundred vs sequential
-            winner = false
-            while !winner do
-                if counter % 2 == 0 #Keep it fair, 50/50 first turns
-                    plr1.take_turn()
-                    if !board.check_winner()
-                        plr3.take_turn()
-                    end
-                else
-                    plr3.take_turn()
-                    if !board.check_winner()
-                        plr1.take_turn()
-                    end
-                end
-                winner = board.check_winner()
-            end
-            refute_equal("O", winner)
-            counter += 1
-            board.reset()
+            #board.reset()
+            board = GameBoard.new
+            plr1.set_board(board)
+            plr2.set_board(board)
         end
     end
 end
