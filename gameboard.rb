@@ -21,6 +21,34 @@ class GameBoard
         false
     end
 
+    def get_tile_s(sym)
+        case sym
+        when :tl_corner
+            return get_tile(0, 0)
+        when :tr_corner
+            return get_tile(0, @size-1)
+        when :bl_corner
+            return get_tile(0, @size-1)
+        when :br_corner
+            return get_tile(@size-1, @size-1)
+        end
+        false
+    end
+
+    def set_tile_s(sym, piece)
+        case sym
+        when :tl_corner
+            return set_tile(0, 0, piece)
+        when :tr_corner
+            return set_tile(0, @size-1, piece)
+        when :bl_corner
+            return set_tile(0, @size-1, piece)
+        when :br_corner
+            return set_tile(@size-1, @size-1, piece)
+        end
+        false
+    end
+
     def check_winner()
         cross_counter = 0
         while cross_counter < @size do
