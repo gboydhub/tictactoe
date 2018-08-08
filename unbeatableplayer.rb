@@ -57,20 +57,8 @@ class UnbeatablePlayer < BasePlayer
         end
 
         #Claim corner
-        if @board.get_tile(0, 0) == 0
-            @board.set_tile(0, 0, @piece)
-            return true
-        end
-        if @board.get_tile(0, 2) == 0
-            @board.set_tile(0, 2, @piece)
-            return true
-        end
-        if @board.get_tile(2, 0) == 0
-            @board.set_tile(2, 0, @piece)
-            return true
-        end
-        if @board.get_tile(2, 2) == 0
-            @board.set_tile(2, 2, @piece)
+        next_move = claim_open_corner()
+        if next_move
             return true
         end
 
@@ -317,6 +305,26 @@ class UnbeatablePlayer < BasePlayer
         end
         if @board.get_tile(0, 2) == @enemy_piece && @board.get_tile(2, 0) == 0
             @board.set_tile(2, 0, @piece)
+            return true
+        end
+        false
+    end
+
+    def claim_open_corner()
+        if @board.get_tile(0, 0) == 0
+            @board.set_tile(0, 0, @piece)
+            return true
+        end
+        if @board.get_tile(0, 2) == 0
+            @board.set_tile(0, 2, @piece)
+            return true
+        end
+        if @board.get_tile(2, 0) == 0
+            @board.set_tile(2, 0, @piece)
+            return true
+        end
+        if @board.get_tile(2, 2) == 0
+            @board.set_tile(2, 2, @piece)
             return true
         end
         false
