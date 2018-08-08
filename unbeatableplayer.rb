@@ -63,20 +63,8 @@ class UnbeatablePlayer < BasePlayer
         end
 
         #Claim side
-        if @board.get_tile(1, 0) == 0
-            @board.set_tile(1, 0, @piece)
-            return true
-        end
-        if @board.get_tile(1, 2) == 0
-            @board.set_tile(1, 2, @piece)
-            return true
-        end
-        if @board.get_tile(0, 1) == 0
-            @board.set_tile(0, 1, @piece)
-            return true
-        end
-        if @board.get_tile(2, 1) == 0
-            @board.set_tile(2, 1, @piece)
+        next_move = claim_open_side()
+        if next_move
             return true
         end
         false
@@ -325,6 +313,26 @@ class UnbeatablePlayer < BasePlayer
         end
         if @board.get_tile(2, 2) == 0
             @board.set_tile(2, 2, @piece)
+            return true
+        end
+        false
+    end
+
+    def claim_open_side()
+        if @board.get_tile(1, 0) == 0
+            @board.set_tile(1, 0, @piece)
+            return true
+        end
+        if @board.get_tile(1, 2) == 0
+            @board.set_tile(1, 2, @piece)
+            return true
+        end
+        if @board.get_tile(0, 1) == 0
+            @board.set_tile(0, 1, @piece)
+            return true
+        end
+        if @board.get_tile(2, 1) == 0
+            @board.set_tile(2, 1, @piece)
             return true
         end
         false
