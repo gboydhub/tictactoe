@@ -3,6 +3,14 @@
 <% end %>
 <% img_path = "/images/" %>
 <% secret_img = ""%>
+<% if game_inst.size > 9 %>
+    <style>
+        .tile_btn {
+            width: 3rem;
+            height: 3rem;
+        }
+    </style>
+<% end %>
 <% if secret_mode == "true" %>
     <% img_path = "/images/shh/" %>
     <% secret_img = ", url(/images/shh/button.png) top left/cover no-repeat"%>
@@ -12,8 +20,8 @@
     </script>
 <%end%>
     <div id="game_board">
-        <% (0..game_inst.height-1).each do |y| %>
-            <% (0..game_inst.width-1).each do |x| %>
+        <% (0..game_inst.size-1).each do |y| %>
+            <% (0..game_inst.size-1).each do |x| %>
                 <% bg_img = "" %>
                 <% if secret_mode == "true" %>
                     <% bg_img = "style = 'background: url(/images/shh/button.png) top left/cover no-repeat'" %>

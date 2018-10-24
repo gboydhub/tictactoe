@@ -9,8 +9,8 @@
     </script>
 <%end%>
     <div id="game_board">
-        <% (0..game_inst.height-1).each do |y| %>
-            <% (0..game_inst.width-1).each do |x| %>
+        <% (0..game_inst.size-1).each do |y| %>
+            <% (0..game_inst.size-1).each do |x| %>
                 <% bg_img = "" %>
                 <% if secret_mode == "true" %>
                     <% bg_img = "style = 'background: url(/images/shh/button.png) top left/cover no-repeat'" %>
@@ -45,5 +45,5 @@
 <% end %>
 Game Winner: <%= victor %><br>
 
-<br><form action="/reset_game" method="post"><button class="tile_btn" style="width:7rem;height:3rem">Play Again</button></form>
+<br><form action="/reset_game" method="post"><input type="hidden" value="<%=game_inst.size%>" name="board_size"><button class="tile_btn" style="width:7rem;height:3rem">Play Again</button></form>
 <form action="/" method="get"><button class="tile_btn" style="width:7rem;height:3rem">New Game</button></form>

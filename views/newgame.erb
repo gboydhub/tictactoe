@@ -42,6 +42,10 @@
             </div>
         </div>
     </div><br>
+    <p id="gridText">Grid Size: 3x3</p>
+    <div class="slider_div">
+        <input type="range" min="1" max="6" value="1" class="slider" name="board_size" id="board_size" oninput="updateGridText(this.value);" onchange="updateGridText(this.value);">
+    </div><br>
     <button class="start_btn">Start Game</button><br><br>
     <font size="2rem">
     Tip:<br>
@@ -60,4 +64,13 @@
     {
         showOptions(2);
     }
+
+    function updateGridText(val) {
+        var gridlabel = document.getElementById('gridText');
+        val = 1 + (val*2);
+        gridlabel.innerHTML = `Grid Size: ${val}x${val}`;
+    }
+    var grid_val = document.getElementById("board_size").value;
+    grid_val = 1 + (grid_val*2);
+    document.getElementById('gridText').innerHTML = `Grid Size: ${grid_val}x${grid_val}`;
 </script>

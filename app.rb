@@ -41,7 +41,9 @@ post '/turn' do
 end
 
 post '/new_game' do
-  session[:gameobj] = GameBoard.new
+  board_size = params[:board_size] || "1"
+
+  session[:gameobj] = GameBoard.new(1 + (board_size.to_i * 2))
   session[:player1] = "Human"
   session[:player2] = "Human" #Default players to human to catch wonky form data
 
@@ -85,7 +87,8 @@ post '/reset_game' do
     redirect '/'
   end
 
-  session[:gameobj] = GameBoard.new;
+  board_size = params[:board_size] || "3"
+  session[:gameobj] = GameBoard.new(board_size.to_i);
   if session[:player1] != "Human"
     session[:player1].set_board(session[:gameobj])
   end

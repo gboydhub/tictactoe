@@ -44,6 +44,12 @@ class UnbeatablePlayer < BasePlayer
             end
         end
 
+        next_move = find_streak(@enemy_piece)
+        if next_move
+            @board.set_tile(next_move[0], next_move[1], @piece)
+            return true
+        end
+
         #Claim center
         if @board.get_center() == 0
             @board.set_center(@piece)
@@ -64,6 +70,11 @@ class UnbeatablePlayer < BasePlayer
 
         #Claim side
         next_move = claim_open_side()
+        if next_move
+            return true
+        end
+
+        next_move = claim_open_spot()
         if next_move
             return true
         end
@@ -279,20 +290,20 @@ class UnbeatablePlayer < BasePlayer
     end
 
     def claim_opposite_corner()
-        if @board.get_tile(0, 0) == @enemy_piece && @board.get_tile(2, 2) == 0
-            @board.set_tile(2, 2, @piece)
+        if @board.get_tile(0, 0) == @enemy_piece && @board.get_tile(@board.size-1, @board.size-1) == 0
+            @board.set_tile(@board.size-1, @board.size-1, @piece)
             return true
         end
-        if @board.get_tile(2, 2) == @enemy_piece && @board.get_tile(0, 0) == 0
+        if @board.get_tile(@board.size-1, @board.size-1) == @enemy_piece && @board.get_tile(0, 0) == 0
             @board.set_tile(0, 0, @piece)
             return true
         end
-        if @board.get_tile(2, 0) == @enemy_piece && @board.get_tile(0, 2) == 0
-            @board.set_tile(0, 2, @piece)
+        if @board.get_tile(@board.size-1, 0) == @enemy_piece && @board.get_tile(0, @board.size-1) == 0
+            @board.set_tile(0, @board.size-1, @piece)
             return true
         end
-        if @board.get_tile(0, 2) == @enemy_piece && @board.get_tile(2, 0) == 0
-            @board.set_tile(2, 0, @piece)
+        if @board.get_tile(0, @board.size-1) == @enemy_piece && @board.get_tile(@board.size-1, 0) == 0
+            @board.set_tile(@board.size-1, 0, @piece)
             return true
         end
         false
@@ -303,42 +314,84 @@ class UnbeatablePlayer < BasePlayer
             @board.set_tile(0, 0, @piece)
             return true
         end
-        if @board.get_tile(0, 2) == 0
-            @board.set_tile(0, 2, @piece)
+        if @board.get_tile(0, @board.size-1) == 0
+            @board.set_tile(0, @board.size-1, @piece)
             return true
         end
-        if @board.get_tile(2, 0) == 0
-            @board.set_tile(2, 0, @piece)
+        if @board.get_tile(@board.size-1, 0) == 0
+            @board.set_tile(@board.size-1, 0, @piece)
             return true
         end
-        if @board.get_tile(2, 2) == 0
-            @board.set_tile(2, 2, @piece)
+        if @board.get_tile(@board.size-1, @board.size-1) == 0
+            @board.set_tile(@board.size-1, @board.size-1, @piece)
             return true
         end
         false
     end
 
     def claim_open_side()
-        if @board.get_tile(1, 0) == 0
-            @board.set_tile(1, 0, @piece)
-            return true
+        #Check top
+        x = 1
+        while x < @board.size-1 do
+            if @board.get_tile(x, 0) == 0
+                @board.set_tile(x, 0, @piece)
+                return true
+            end
+            x += 1
         end
-        if @board.get_tile(1, 2) == 0
-            @board.set_tile(1, 2, @piece)
-            return true
+        #Check bottom
+        x = 1
+        while x < @board.size-1 do
+            if @board.get_tile(x, @board.size-1) == 0
+                @board.set_tile(x, @board.size-1, @piece)
+                return true
+            end
+            x += 1
         end
-        if @board.get_tile(0, 1) == 0
-            @board.set_tile(0, 1, @piece)
-            return true
+        #Check left
+        y = 1
+        while y < @board.size-1 do
+            if @board.get_tile(0, y) == 0
+                @board.set_tile(0, y, @piece)
+                return true
+            end
+            y += 1
         end
-        if @board.get_tile(2, 1) == 0
-            @board.set_tile(2, 1, @piece)
-            return true
+        #Check right
+        y = 1
+        while y < @board.size-1 do
+            if @board.get_tile(@board.size-1, y) == 0
+                @board.set_tile(@board.size-1, y, @piece)
+                return true
+            end
+            y += 1
         end
         false
     end
 
-    #Assumes board size 3x3
+    def claim_open_spot()
+        valid_moves = []
+        x = 0
+        y = 0
+        while x < @board.size do
+            while y < @board.size do
+                if @board.get_tile(x, y) == 0
+                    valid_moves << [x, y]
+                end
+                y += 1
+            end
+            x += 1
+            y = 0
+        end
+
+        if valid_moves.length > 0
+            move = valid_moves[Random.rand(valid_moves.length)]
+            @board.set_tile(move[0],move[1], @piece)
+            return true
+        end
+        false
+    end
+    
     def opp_pos(pos)
         if pos == 0
             pos = @board.size - 1
@@ -401,6 +454,66 @@ class UnbeatablePlayer < BasePlayer
             end
         end
         false
+    end
+
+    def find_streak(symbol)
+        x = 0
+        y = 0
+        while x < @board.size do
+            down_counter = 0
+            s_begin = []
+            while y < @board.size do
+                if @board.get_tile(x, y) == symbol
+                    down_counter += 1
+                    if down_counter == 1
+                        s_begin = [x, y]
+                    end
+                    if down_counter >= 3 && @board.get_tile(s_begin[0], s_begin[1]-1) == 0
+                        puts "Streak: #{[s_begin[0], s_begin[1]-1]}, #{s_begin}"
+                        return [s_begin[0], s_begin[1]-1]
+                    elsif down_counter >= 3 && @board.get_tile(x, y+1) == 0
+                        puts "StreakB: #{[x, y+1]}"
+                        return [x, y+1]
+                    end
+                else
+                    down_counter = 0
+                    s_begin = []
+                end
+                y += 1
+            end
+            x += 1
+            y = 0
+        end
+
+        x = 0
+        y = 0
+        while y < @board.size do
+            down_counter = 0
+            s_begin = []
+            while x < @board.size do
+                if @board.get_tile(x, y) == symbol
+                    down_counter += 1
+                    if down_counter == 1
+                        s_begin = [x, y]
+                    end
+                    if down_counter >= 3 && @board.get_tile(s_begin[0]-1, s_begin[1]) == 0
+                        puts "StreakC: #{s_begin}"
+                        return [s_begin[0]-1, s_begin[1]]
+                    elsif down_counter >= 3 && @board.get_tile(x+1, y) == 0
+                        puts "StreakD: #{[x+1, y]}"
+                        return [x+1, y]
+                    end
+                else
+                    down_counter = 0
+                    s_begin = []
+                end
+                x += 1
+            end
+            y += 1
+            x = 0
+        end
+
+        return false
     end
 
     def find_potential_fork(symbol)
