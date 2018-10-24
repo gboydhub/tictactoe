@@ -44,11 +44,11 @@ class UnbeatablePlayer < BasePlayer
             end
         end
 
-        next_move = find_streak(@enemy_piece)
-        if next_move
-            @board.set_tile(next_move[0], next_move[1], @piece)
-            return true
-        end
+        # next_move = find_streak(@enemy_piece)
+        # if next_move
+        #     @board.set_tile(next_move[0], next_move[1], @piece)
+        #     return true
+        # end
 
         #Claim center
         if @board.get_center() == 0
@@ -188,19 +188,21 @@ class UnbeatablePlayer < BasePlayer
         y = 0
         #Across
         while y < @board.size do 
+            already_blocked = false
             while x < @board.size do 
                 if @board.get_tile(x, y) == @enemy_piece
                     found += 1
                 elsif @board.get_tile(x, y) == @piece
-                    found -= 1
+                    already_blocked = true
                 end
                 x += 1
             end
-            if found == @board.size - 1
+            if found >= 2 && !already_blocked
                 x = 0
                 while x < @board.size do 
                     if @board.get_tile(x, y) == 0
                         @board.set_tile(x, y, @piece)
+                        break
                     end
                     x += 1
                 end
@@ -216,19 +218,21 @@ class UnbeatablePlayer < BasePlayer
         y = 0
         found = 0
         while x < @board.size do 
+            already_blocked = false
             while y < @board.size do
                 if @board.get_tile(x, y) == @enemy_piece
                     found += 1
                 elsif @board.get_tile(x, y) == @piece
-                    found -= 1
+                    already_blocked = true
                 end
                 y += 1
             end
-            if found == @board.size - 1
+            if found >= 2 && !already_blocked
                 y = 0
                 while y < @board.size do
                     if @board.get_tile(x, y) == 0
                         @board.set_tile(x, y, @piece)
+                        break
                     end
                     y += 1
                 end
@@ -242,19 +246,21 @@ class UnbeatablePlayer < BasePlayer
         #TL > BR
         x = 0
         found = 0
+        already_blocked = false
         while x < @board.size do
             if @board.get_tile(x, x) == @enemy_piece
                 found += 1
             elsif @board.get_tile(x, x) == @piece
-                found -= 1
+                already_blocked = true
             end
             x += 1
         end
-        if found == @board.size - 1
+        if found >= 2 && !already_blocked
             x = 0
             while x < @board.size do
                 if @board.get_tile(x, x) == 0
                     @board.set_tile(x, x, piece)
+                    break
                 end
                 x += 1
             end
@@ -265,21 +271,23 @@ class UnbeatablePlayer < BasePlayer
         x = 0
         y = @board.size - 1
         found = 0
+        already_blocked = false
         while x < @board.size do
             if @board.get_tile(x, y) == @enemy_piece
                 found += 1
             elsif @board.get_tile(x, y) == @piece
-                found -= 1
+                already_blocked = true
             end
             x += 1
             y -= 1
         end
-        if found == @board.size - 1
+        if found >= 2 && !already_blocked
             x = 0
             y = @board.size-1
             while x < @board.size do
                 if @board.get_tile(x, y) == 0
                     @board.set_tile(x, y, @piece)
+                    break
                 end
                 x += 1
                 y -= 1
@@ -461,25 +469,20 @@ class UnbeatablePlayer < BasePlayer
         y = 0
         while x < @board.size do
             down_counter = 0
+            already_blocked = false
             s_begin = []
             while y < @board.size do
                 if @board.get_tile(x, y) == symbol
                     down_counter += 1
-                    if down_counter == 1
-                        s_begin = [x, y]
-                    end
-                    if down_counter >= 3 && @board.get_tile(s_begin[0], s_begin[1]-1) == 0
-                        puts "Streak: #{[s_begin[0], s_begin[1]-1]}, #{s_begin}"
-                        return [s_begin[0], s_begin[1]-1]
-                    elsif down_counter >= 3 && @board.get_tile(x, y+1) == 0
-                        puts "StreakB: #{[x, y+1]}"
-                        return [x, y+1]
-                    end
-                else
+                elsif @board.get_tile(x,y) == @piece
                     down_counter = 0
+                    already_blocked = true
                     s_begin = []
                 end
                 y += 1
+            end
+            if already_blocked
+
             end
             x += 1
             y = 0

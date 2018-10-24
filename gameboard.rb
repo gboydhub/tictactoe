@@ -3,6 +3,7 @@ class GameBoard
         @size = size
         @board = Array.new(size) {Array.new(size, 0)}
         @turns_taken = 0
+        @game_log = ""
     end
 
     def get_tile(x, y)
@@ -15,6 +16,7 @@ class GameBoard
     def set_tile(x, y, marker)
         if x >= 0 && x < @size && y >= 0 && y < @size
             @board[x][y] = marker
+            @game_log += "#{marker} picked: [#{x},#{y}]~"
             @turns_taken += 1
             return true
         end
@@ -146,4 +148,5 @@ class GameBoard
     attr_reader :size
     attr_reader :size
     attr_reader :turns_taken
+    attr_reader :game_log
 end

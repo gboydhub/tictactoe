@@ -43,7 +43,10 @@
         <% end %>
     <% end %>
 <% end %>
-Game Winner: <%= victor %><br><%= session[:player1] %> - <%= session[:player2] %>
+Game Winner: <%= victor %><br><br>
 
 <br><form action="/reset_game" method="post"><input type="hidden" value="<%=game_inst.size%>" name="board_size"><button class="tile_btn" style="width:7rem;height:3rem">Play Again</button></form>
 <form action="/" method="get"><button class="tile_btn" style="width:7rem;height:3rem">New Game</button></form>
+<font size=2rem>
+Game Log:<br>
+<%=game_log%></font>

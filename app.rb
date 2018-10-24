@@ -138,5 +138,10 @@ get '/end_game' do
   elsif winner == "O"
     winner = "Ninjas!"
   end
-  erb :end_game, locals: {game_inst: session[:gameobj], victor: winner, secret_mode: session[:secret]}
+  log = session[:gameobj].game_log.gsub('~', '<br>')
+  log = log.gsub('X', session[:player1].class.to_s)
+  log = log.gsub('O', session[:player2].class.to_s)
+  log = log.gsub('String', 'Human')
+  p log
+  erb :end_game, locals: {game_inst: session[:gameobj], victor: winner, secret_mode: session[:secret], game_log: log}
 end
