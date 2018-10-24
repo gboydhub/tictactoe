@@ -19,6 +19,7 @@
         document.body.style = "background: black url(/images/shh/SeaShrine.gif) repeat-x;";
     </script>
 <%end%>
+<%= session[:player1] %> - <%= session[:player2] %>
     <div id="game_board">
         <% (0..game_inst.size-1).each do |y| %>
             <% (0..game_inst.size-1).each do |x| %>
