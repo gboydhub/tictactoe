@@ -12,16 +12,30 @@
         <% (0..game_inst.size-1).each do |y| %>
             <% (0..game_inst.size-1).each do |x| %>
                 <% bg_img = "" %>
+                <% bg_div = ""%>
+                <% bg_div_end = ""%>
                 <% if secret_mode == "true" %>
                     <% bg_img = "style = 'background: url(/images/shh/button.png) top left/cover no-repeat'" %>
                 <% end %>
                 <% if game_inst.get_tile(x, y) == "X" %>
                     <% bg_img = " style='background: url(#{img_path}pirate.png) no-repeat center/contain#{secret_img};'" %>
+                    <% if victor == "Pirates!" %>
+                        <% bg_div = "<div style='background-color:rgb(129, 49, 49);display:inline-block'>"%>
+                        <% bg_div_end = "</div>"%>
+                    <% end %>
                 <% elsif game_inst.get_tile(x, y) == "O" %>
                     <% bg_img = " style='background: url(#{img_path}ninja.png) no-repeat center/contain#{secret_img};'" %>
+                    <% if victor == "Ninjas!" %>
+                        <% bg_div = "<div style='background-color:rgb(44, 44, 172);display:inline-block'>"%>
+                        <% bg_div_end = "</div>"%>
+                    <% end %>
                 <% end %>
-                <button name="tile_clicked" id="<%=x%>_<%=y%>" value="<%=x%>_<%=y%>" class="tile_btn" <%= bg_img %>>&nbsp;
-                </button>
+                <%p bg_div %>
+                
+                <%= bg_div %>
+                    <button name="tile_clicked" id="<%=x%>_<%=y%>" value="<%=x%>_<%=y%>" class="tile_btn" <%= bg_img %>>&nbsp;
+                    </button>
+                <%= bg_div_end %>
             <% end %>
             <br>
         <% end %>
